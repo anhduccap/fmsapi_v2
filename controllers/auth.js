@@ -85,13 +85,13 @@ exports.login = async (req, res) => {
         const member = await MemberModel.findOne({username: req.body.username});
         if(!member) {
             let code = 400;
-            return res.status(code).send( helper.responseFailure(false, code, 'Username or Password is incorrect') );
+            return res.status(code).send( helper.responseFailure(false, code, 'Username or Password is incorrect', null) );
         }
         
         let passwordValidation = await bcrypt.compare(req.body.password, member.password);
         if(!passwordValidation) {
             let code = 400;
-            return res.status(code).send( helper.responseFailure(false, code, 'Username or Password is incorrect') );
+            return res.status(code).send( helper.responseFailure(false, code, 'Username or Password is incorrect', null) );
         }
         let token = jwt.sign({
             data: {
