@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Int32 = require('mongoose-int32').loadType('mongoose');
+const Int32 = require("mongoose-int32").loadType(mongoose);
 
 const EventSchema = new Schema({
     title: {
@@ -13,11 +13,7 @@ const EventSchema = new Schema({
         type: String,
         require: true,
     },
-    date_start: {
-        type: Object,
-        require: true,
-    },
-    date_end: {
+    date: {
         type: Object,
         require: true,
     },
@@ -26,7 +22,7 @@ const EventSchema = new Schema({
         default: 1, // 1-scheduled 2-In process 3-Completed 4-Canceled
     },
     type: {
-        type: String, // Practice Match ...
+        type: String, // Practice || Match || Other event ...
         require: true,
     },
     date_created: {

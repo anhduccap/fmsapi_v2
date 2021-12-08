@@ -38,9 +38,8 @@ exports.register = async (req, res, next) => {
 
                 const Member = new MemberModel({
                     id: req.body.id,
+                    position: req.body.position,
                     name: req.body.name,
-                    email: req.body.email,
-                    phone: req.body.phone,
                     role: req.body.role,
                     username: username,
                     password: password,

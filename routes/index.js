@@ -6,12 +6,13 @@ const authRouter = require('./auth');
 const homeRouter = require('./home');
 const playerRouter = require('./player');
 const coachRouter = require('./coach');
+const eventRouter = require('./event');
 
 router.use('/auth', authRouter);
 router.use('/', homeRouter);
 router.use('/player', playerRouter);
 router.use('/coach', coachRouter);
-
+router.use('/event', eventRouter);
 
 // catch 404 and forward to error handler
 router.use(function(req, res, next) {

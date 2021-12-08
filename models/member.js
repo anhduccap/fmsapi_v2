@@ -2,11 +2,24 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Int32 = require("mongoose-int32").loadType(mongoose);
 
 const MemberSchema = new Schema({
     id: {
         type: String,
         require: true,
+    },
+    position: {
+        type: String,
+        require: true,
+    },
+    detail_position: {
+        type: String,
+        default: '',
+    },
+    kit_number: {
+        type: Int32,
+        default: 0,
     },
     name: {
         type: String,
@@ -14,11 +27,11 @@ const MemberSchema = new Schema({
     },
     email: {
         type: String,
-        default: null,
+        default: '',
     },
     phone: {
         type: String,
-        default: null,
+        default: '',
     },
     role: {
         type: Number,

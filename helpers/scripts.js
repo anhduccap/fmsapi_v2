@@ -1,7 +1,6 @@
 const request = require('request');
 const axios = require('axios');
 
-const MemberModel = require('../models/member');
 const StatModel = require('../models/stat');
 
 let createMember = async () => {
@@ -25,9 +24,9 @@ let createMember = async () => {
         memberList.forEach(async (member) => {
             let data = {
                 id: member.id,
+                position: member.position,
+                kit_number: member.number,
                 name: member.name,
-                phone: '',
-                email: '',
                 role: '3',
                 photo: member.photo,
             };
@@ -35,7 +34,7 @@ let createMember = async () => {
                 method: 'POST',
                 url: 'http://localhost:3001/auth/member',
                 headers: {
-                    'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im1lbWJlcl9pZCI6IjYxN2MwYzAzOWUyY2YzY2M2ZWQ0NmNmMiIsInJvbGUiOjF9LCJleHAiOjE2MzYxMTI4NTcsImlhdCI6MTYzNjEwOTI1N30.IzziBOu1bl_mj-3wqWJXC4wnDC6ThBCUTTGHxNgNey0',
+                    'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im1lbWJlcl9pZCI6IjYxYWYyZTVkOWZjMmVhNDc3Mzg4YjBhNyIsInJvbGUiOjF9LCJleHAiOjE2Mzg4OTMwODgsImlhdCI6MTYzODg4OTQ4OH0.HcWRkvncfxsu-n9u9aFLXYAgmFOHGAmZn3tXkFETUhI',
                 },
                 data: data,
             })
@@ -53,25 +52,93 @@ let createStat = async () => {
         method: 'GET',
         url: 'http://localhost:3001/player',
         headers: {
-            'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im1lbWJlcl9pZCI6IjYxN2MwYzAzOWUyY2YzY2M2ZWQ0NmNmMiIsInJvbGUiOjF9LCJleHAiOjE2MzYxMzA2NDUsImlhdCI6MTYzNjEyNzA0NX0.3C99lfV47z4BiQSVHbqMsG-hicfzZc-wbklZF1KI4Vg'
+            'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im1lbWJlcl9pZCI6IjYxYWYyZTVkOWZjMmVhNDc3Mzg4YjBhNyIsInJvbGUiOjF9LCJleHAiOjE2Mzg4OTMwODgsImlhdCI6MTYzODg4OTQ4OH0.HcWRkvncfxsu-n9u9aFLXYAgmFOHGAmZn3tXkFETUhI'
         },
     })
     .then(response => {
         let memberList = response.data.data;
+        // console.log(memberList);
         memberList.forEach(member => {
             let season = '2021';
             axios({
                 method: 'POST',
-                url: `http://localhost:3001/player/statistic/${member._id}?season=${season}`,
+                url: `http://localhost:3001/player/${member._id}/statistic?season=${season}`,
                 headers: {
-                    'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im1lbWJlcl9pZCI6IjYxN2MwYzAzOWUyY2YzY2M2ZWQ0NmNmMiIsInJvbGUiOjF9LCJleHAiOjE2MzYxMzA2NDUsImlhdCI6MTYzNjEyNzA0NX0.3C99lfV47z4BiQSVHbqMsG-hicfzZc-wbklZF1KI4Vg',
+                    'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im1lbWJlcl9pZCI6IjYxYWYyZTVkOWZjMmVhNDc3Mzg4YjBhNyIsInJvbGUiOjF9LCJleHAiOjE2Mzg4OTMwODgsImlhdCI6MTYzODg4OTQ4OH0.HcWRkvncfxsu-n9u9aFLXYAgmFOHGAmZn3tXkFETUhI',
                 },
             })
-            .then(response => console.log(response.data.messages))
-            .catch(err => console.log(err));
+            .then(response => console.log(response.data.message))
+            .catch(err => console.log(err.message));
         })
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(err.messages));
 }
 
 // createStat();
+
+let update = (stat) => {
+    axios({
+        method: 'GET',
+        url: 'https://v3.football.api-sports.io/players',
+        headers: {
+            'x-rapidapi-host': 'v3.football.api-sports.io',
+            'x-rapidapi-key': '39ca433ef98ac8cb40a89b37f1111714',
+        },
+        params: {
+            id: stat.player.id,
+            season: stat.season
+        }
+    })
+    .then( response => response.data.response[0])
+    .then( response => {
+        axios({
+            method: 'POST',
+            url: `http://localhost:3001/coach/update_rating`,
+            params: {
+                stat_id: stat._id,
+            },
+            headers: {
+                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im1lbWJlcl9pZCI6IjYxYWYyZTVkOWZjMmVhNDc3Mzg4YjBhNyIsInJvbGUiOjF9LCJleHAiOjE2Mzg5NDE0ODksImlhdCI6MTYzODkzNzg4OX0.IdO_Wxl2VLchzW9vlIoOzCzPVlGBbzzNCJAG5mqtsdw'
+            },
+            data: {
+                rating: response.statistics[0].games.rating
+            }
+        })
+        .then (response => console.log(`Updating complete`))
+        .catch(err => console.log(err.message));
+    })
+    .catch(err => {
+        console.log(err.message);
+    });
+}
+
+
+let updateRating = async () => {
+    axios({
+        method: 'GET',
+        url: `http://localhost:3001/coach/statistic`,
+        headers: {
+            'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im1lbWJlcl9pZCI6IjYxYWYyZTVkOWZjMmVhNDc3Mzg4YjBhNyIsInJvbGUiOjF9LCJleHAiOjE2Mzg5NDE0ODksImlhdCI6MTYzODkzNzg4OX0.IdO_Wxl2VLchzW9vlIoOzCzPVlGBbzzNCJAG5mqtsdw'
+        }
+    })
+    .then( response => response.data.data)
+    .then( response => {
+        let numberOfStat = response.length;
+        let count = 0;
+        let updateProcess = setInterval(() => {
+            update(response[count]);
+            if(count === numberOfStat - 1) {
+                clearInterval(updateProcess);
+            }
+            else{
+                count++;
+            }
+        }, 10000);
+
+
+        update(response[0]);
+    })
+    .catch( err => console.log(err.message));
+}
+
+updateRating();

@@ -1,7 +1,137 @@
 const { validationResult } = require('express-validator');
+const axios = require('axios');
 
 const helper = require('../helpers/index');
 const CommentModel = require('../models/comment');
+const StatModel = require('../models/stat');
+
+let sortFunction = async () => {
+    
+}
+
+exports.getAllStatistic = async (req, res) => {
+    if(req.role === 1 || req.role === 2) {
+        try{
+            let statList = await StatModel.find({}).populate('player').exec();
+            if(!statList) {
+                let code = 400;
+                return res.status(code).send(helper.responseFailure(false, code, 'Not found'));
+            }
+    
+            let code = 200;
+            return res.status(code).send(helper.responseSuccess(true, code, 'Get successful', statList));
+        }
+        catch(err){
+            let code = 500;
+            return res.status(code).send( helper.responseFailure(false, code, err.message) );
+        }
+    };
+
+    let code = 400;
+    return res.status(code).send(helper.responseFailure(false, code, 'Access denied'))
+}
+
+exports.updateRating = async (req, res) => {
+    if(req.role !== 1 && req.role !== 2){
+        return res.status(500).send(helper.responseSuccess(false, 500, 'Access denied', null));
+    }
+    try{
+        StatModel.findOneAndUpdate(
+            {
+                _id: req.query.stat_id,
+            }, 
+            {rating: req.body.rating}
+        ).then( response => res.status(200).send(helper.responseSuccess(true, 200, 'Successful updated')))
+        .catch(err => res.status(500).send(err.message));
+    }
+    catch(err){
+        return res.status(400).send(helper.responseFailure(false, 400, err.message, err.response));
+    }
+}
+
+function swap(arr, a, b) {
+    let temp = arr[a];
+    arr[a] = arr[b];
+    arr[b] = temp;
+}
+
+const Compare = {
+    LESS_THAN: -1,
+    BIGGER_THAN: 1
+};
+
+function defaultCompare(a, b) {
+    if (a === b) {
+        return 0;
+    }
+    return a < b ? Compare.LESS_THAN : Compare.BIGGER_THAN;
+}
+
+function bubbleSort(arr, compare = defaultCompare) {
+    const { length } = arr;
+    for (let i = 0; i < length; i++) {
+        for (let j = 0; j < length - 1 - i; j++) {
+            if (compare(arr[j].rating, arr[j + 1].rating) === Compare.LESS_THAN) {
+                swap(arr, j, j + 1);
+            }
+        }
+    }
+    return arr;
+}
+
+exports.suggestedLineup = async (req, res) => {
+    try{
+        let statList = await StatModel.find({}).populate('player').exec();
+
+        // console.log(statList);
+
+        statList = statList.map( (stat) => {
+            let newData = {
+                stat_id: stat._id,
+                player_id: stat.player._id,
+                player_2nd_id: stat.player.id,
+                position: stat.player.position,
+                detail_position: stat.player.detail_position,
+                kit_number: stat.player.kit_number,
+                player_name: stat.player.name,
+                injured: stat.injured,
+                rating: stat.rating,
+                season: stat.season,
+            }
+            return newData;
+        });
+
+        statList = bubbleSort(statList);
+
+        let GK = statList.filter( stat => stat.detail_position === 'GK');
+        let CB = statList.filter( stat => stat.detail_position === 'CB');
+        let LB = statList.filter( stat => stat.detail_position === 'LB');
+        let RB = statList.filter( stat => stat.detail_position === 'RB');
+        let CM = statList.filter( stat => stat.detail_position === 'CM');
+        let LM = statList.filter( stat => stat.detail_position === 'LM');
+        let RM = statList.filter( stat => stat.detail_position === 'RM');
+        let CAM = statList.filter( stat => stat.detail_position === 'CAM');
+        let ST = statList.filter( stat => stat.detail_position === 'ST');
+
+        let result = {
+            GK: GK,
+            CB: CB,
+            LB: LB,
+            RB: RB,
+            CM: CM,
+            LM: LM,
+            RM: RM,
+            CAM: CAM,
+            ST: ST,    
+        };
+
+        return res.status(200).send(helper.responseSuccess(true, 200, 'Get successful', result));
+    }
+    catch (err) {
+        let code = 400;
+        return res.status(code).send(helper.responseFailure(false, code, err.message));
+    }
+}
 
 exports.comment = async (req, res) => {
     const errors = validationResult(req);
