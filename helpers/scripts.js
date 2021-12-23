@@ -98,7 +98,7 @@ let update = (stat) => {
                 stat_id: stat._id,
             },
             headers: {
-                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im1lbWJlcl9pZCI6IjYxYWYyZTVkOWZjMmVhNDc3Mzg4YjBhNyIsInJvbGUiOjF9LCJleHAiOjE2Mzg5NDE0ODksImlhdCI6MTYzODkzNzg4OX0.IdO_Wxl2VLchzW9vlIoOzCzPVlGBbzzNCJAG5mqtsdw'
+                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im1lbWJlcl9pZCI6IjYxYWYyZTVkOWZjMmVhNDc3Mzg4YjBhNyIsInJvbGUiOjF9LCJleHAiOjE2NDAyNTg4NDcsImlhdCI6MTY0MDI1NTI0N30.E-x1nczHS1-WZsGi0XCibuRPxNoSOeHuEjjkbGCmyck'
             },
             data: {
                 rating: response.statistics[0].games.rating
@@ -118,7 +118,7 @@ let updateRating = async () => {
         method: 'GET',
         url: `http://localhost:3001/coach/statistic`,
         headers: {
-            'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im1lbWJlcl9pZCI6IjYxYWYyZTVkOWZjMmVhNDc3Mzg4YjBhNyIsInJvbGUiOjF9LCJleHAiOjE2Mzg5NDE0ODksImlhdCI6MTYzODkzNzg4OX0.IdO_Wxl2VLchzW9vlIoOzCzPVlGBbzzNCJAG5mqtsdw'
+            'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im1lbWJlcl9pZCI6IjYxYWYyZTVkOWZjMmVhNDc3Mzg4YjBhNyIsInJvbGUiOjF9LCJleHAiOjE2NDAyNTg4NDcsImlhdCI6MTY0MDI1NTI0N30.E-x1nczHS1-WZsGi0XCibuRPxNoSOeHuEjjkbGCmyck'
         }
     })
     .then( response => response.data.data)
@@ -133,7 +133,7 @@ let updateRating = async () => {
             else{
                 count++;
             }
-        }, 10000);
+        }, 6000);
 
 
         update(response[0]);

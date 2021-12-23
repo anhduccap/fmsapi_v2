@@ -90,6 +90,7 @@ exports.suggestedLineup = async (req, res) => {
                 stat_id: stat._id,
                 player_id: stat.player._id,
                 player_2nd_id: stat.player.id,
+                avatar: stat.player.photo,
                 position: stat.player.position,
                 detail_position: stat.player.detail_position,
                 kit_number: stat.player.kit_number,

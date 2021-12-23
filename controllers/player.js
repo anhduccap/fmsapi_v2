@@ -102,6 +102,27 @@ exports.getStatistic = async (req, res) => {
     }
 }
 
+exports.getPlayer = async (req, res) => {
+    try {
+        let member = await MemberModel.findById(req.member_id);
+        let data = {
+            id: member.id,
+            name: member.name,
+            avatar: member.photo,
+            kit_number: member.kit_number,
+            position: member.position,
+            detail_position: member.detail_position,
+
+        };
+        let code = 200;
+        return res.status(code).send(helper.responseSuccess(true, code, 'Sucess', data));
+    }
+    catch(err){
+        let code = 500;
+        return res.status(code).send( helper.responseFailure(false, code, err.message) );
+    }
+}
+
 exports.getComment = async (req, res) => {
     if((req.member_id === req.params.player_id && req.role === 3) || req.role === 1 || req.role === 2){
         try{

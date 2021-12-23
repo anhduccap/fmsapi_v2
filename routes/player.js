@@ -16,4 +16,7 @@ router.post('/:player_id/statistic', middleware.checkToken, playerController.cre
 // Get specified player stat
 router.get('/:player_id/statistic', middleware.checkToken, playerController.getStatistic);
 
+// Get player information
+router.get('/:player_id/info', middleware.checkToken, playerController.getPlayer);
+
 module.exports = router;
