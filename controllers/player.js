@@ -126,7 +126,7 @@ exports.getPlayer = async (req, res) => {
 exports.getComment = async (req, res) => {
     if((req.member_id === req.params.player_id && req.role === 3) || req.role === 1 || req.role === 2){
         try{
-            let stat = await StatModel.findOne({player: req.params.player_id, season: req.query.season});
+            let stat = await StatModel.findOne({player: req.params.player_id, season: '2021'});
 
             if(!stat){
                 let code = 400;
@@ -134,7 +134,7 @@ exports.getComment = async (req, res) => {
             }
 
             let commentList = await CommentModel.find({stat: stat._id, is_deleted: false}).populate('coach').exec();
-            console.log(commentList);
+            // console.log(commentList);
             if(!commentList || commentList.length === 0){
                 let code = 400;
                 return res.status(code).send(helper.responseFailure(false, code,'Have no comments'));
