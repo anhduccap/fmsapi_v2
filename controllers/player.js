@@ -104,8 +104,9 @@ exports.getStatistic = async (req, res) => {
 
 exports.getPlayer = async (req, res) => {
     try {
-        let member = await MemberModel.findById(req.member_id);
+        let member = await MemberModel.findById(req.params.player_id);
         let data = {
+            _id: member._id,
             id: member.id,
             name: member.name,
             avatar: member.photo,

@@ -17,6 +17,7 @@ exports.getBasicInformation = async (req, res) => {
     try {
         let member = await MemberModel.findById(req.member_id);
         let data = {
+            id: req.member_id,
             name: member.name,
             avatar: member.photo,
         }
