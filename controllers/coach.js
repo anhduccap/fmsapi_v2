@@ -4,6 +4,7 @@ const axios = require('axios');
 const helper = require('../helpers/index');
 const CommentModel = require('../models/comment');
 const StatModel = require('../models/stat');
+const MemberModel = require('../models/member');
 
 let sortFunction = async () => {
     
@@ -144,28 +145,38 @@ exports.comment = async (req, res) => {
     }
 
     // Check case: use fake jwt of coach && only coach can comment
-    if(req.member_id !== req.params.coach_id || req.role !== 2){
+    if(req.member_id !== req.params.coach_id || req.role === 3){
         let code = 400;
         return res.status(code).send(helper.responseFailure(false, code, 'Access denied'));
     }
 
+    console.log(req.body);
+
     let comment = escape(req.body.content);
 
-    const NewComment = new CommentModel({
-        stat: req.params.stat_id,
-        coach: req.params.coach_id,
-        content: comment,
-    });
+    try{
+        let stat = await StatModel.findOne({player: req.params.player_id, season: '2021'});
+        let coach = await MemberModel.findById(req.params.coach_id);
 
-    NewComment.save((err) => {
-        if(err){
-            let code = 400;
-            return res.status(code).send(helper.responseFailure(false, code, 'Cannot comment', err.message));
-        }
-        
-        let code = 200;
-        return res.status(code).send(helper.responseSuccess(true, code, 'Comment created'));
-    });
+        const NewComment = new CommentModel({
+            stat: stat._id,
+            coach: req.params.coach_id,
+            content: comment,
+        });
+
+        NewComment.save((err) => {
+            if(err){
+                let code = 400;
+                return res.status(code).send(helper.responseFailure(false, code, 'Cannot comment', err.message));
+            }
+            
+            let code = 200;
+            return res.status(code).send(helper.responseSuccess(true, code, 'Comment created', {comment: NewComment, coach: coach.name}));
+        });
+    }
+    catch(err) {
+        console.log(err.message);
+    }
 }
 
 exports.editComment = async (req, res) => {

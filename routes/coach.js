@@ -15,7 +15,7 @@ router.get('/suggeted_lineup', middleware.checkToken, coachController.suggestedL
 router.post('/update_rating', middleware.checkToken, coachController.updateRating);
 
 // Create comment on player's profile
-router.post('/:coach_id/comment/:stat_id', 
+router.post('/:coach_id/comment/:player_id', 
     body('content')
         .isLength({min: 5}).withMessage('The comment too long or too short'),
     middleware.checkToken, coachController.comment
