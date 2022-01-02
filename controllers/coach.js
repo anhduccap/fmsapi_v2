@@ -5,10 +5,7 @@ const helper = require('../helpers/index');
 const CommentModel = require('../models/comment');
 const StatModel = require('../models/stat');
 const MemberModel = require('../models/member');
-
-let sortFunction = async () => {
-    
-}
+const LectureModel = require('../models/lecture');
 
 exports.getAllStatistic = async (req, res) => {
     if(req.role === 1 || req.role === 2) {
@@ -273,4 +270,108 @@ exports.deleteComment = async (req, res) => {
         let code = 500;
         return res.status(code).send( helper.responseFailure(false, code, err.message) );
     }
+}
+
+exports.createLecture = async (req, res) => {
+    if(req.member_id !== req.params.coach_id || req.role === 3){
+        let code = 400;
+        console.log('400')
+        return res.status(code).send(helper.responseFailure(false, code, 'Access denied'));
+    }
+
+    try{
+        let author = await MemberModel.findById(req.params.coach_id);
+        let newLecture = new LectureModel({
+            author: req.params.coach_id,
+            title: escape(req.body.title),
+            category: escape(req.body.category),
+            content: escape(req.body.content),
+        });
+
+        newLecture.save((err) => {
+            if(err){
+                let code = 400;
+                return res.status(code).send(helper.responseFailure(false, code, 'Cant create lecture', err.message));
+            }
+
+            let code = 200;
+            return res.status(code).send(helper.responseSuccess(true, code, 'Create success', {lecture: newLecture, author: author}));
+        })
+    }
+    catch(err) {
+        console.log(err.message);
+    }
+}
+
+exports.getAllLecture = async (req, res) => {
+    try {
+        let lectures = await LectureModel.find({is_deleted: false}).populate('author').sort({ date_created: 'desc' }).exec();
+
+        let code = 200;
+        return res.status(code).send(helper.responseSuccess(true, code, 'Get success', lectures));
+    }
+    catch(err) {
+        console.log(err.message);
+    }
+}
+
+exports.getLecture = async (req, res) => {
+    try {
+        let lectures = await LectureModel.findOne({_id: req.params.lecture_id, is_deleted: false}).populate('author').exec();
+
+        let code = 200;
+        return res.status(code).send(helper.responseSuccess(true, code, 'Get success', lectures));
+    }
+    catch(err) {
+        console.log(err.message);
+    }
+}
+
+exports.editLecture = async (req, res) => {
+    if(req.member_id !== req.params.coach_id || req.role === 3){
+        let code = 400;
+        console.log('400')
+        return res.status(code).send(helper.responseFailure(false, code, 'Access denied'));
+    }
+
+    try{
+        LectureModel.findOneAndUpdate(
+            {_id: req.params.lecture_id},
+            {
+                title: escape(req.body.title),
+                category: escape(req.body.category),
+                content: escape(req.body.content),
+                date_edited: Date.now(),
+            }
+        )
+        .then(() => {
+            let code = 200;
+            return res.status(code).send(helper.responseSuccess(true, code, 'Update success'));
+        })
+        .catch(err => {
+            let code = 400;
+            return res.status(code).send(helper.responseFailure(false, code, 'Cant create lecture', err.message));
+        });
+    }
+    catch(err) {
+        console.log(err.message);
+    }
+}
+
+exports.deleteLecture = async (req, res) => {
+    if(req.member_id !== req.params.coach_id || req.role === 3){
+        let code = 400;
+        console.log('400')
+        return res.status(code).send(helper.responseFailure(false, code, 'Access denied'));
+    }
+
+    LectureModel.findOneAndUpdate({_id: req.params.lecture_id}, {is_deleted: true, date_edited: Date.now()})
+        .then(() => {
+            let code = 200;
+            return res.status(code).send(helper.responseSuccess(true, code, 'Delete successfully'));
+        })
+        .catch(err => {
+            let code = 500;
+            return res.status(code).send(helper.responseFailure(false, code, 'Error', err.message));
+        })
 }
