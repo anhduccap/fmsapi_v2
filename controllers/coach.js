@@ -6,6 +6,7 @@ const CommentModel = require('../models/comment');
 const StatModel = require('../models/stat');
 const MemberModel = require('../models/member');
 const LectureModel = require('../models/lecture');
+const AnnouncementModel = require('../models/announcement');
 
 exports.getAllStatistic = async (req, res) => {
     if(req.role === 1 || req.role === 2) {
@@ -374,4 +375,47 @@ exports.deleteLecture = async (req, res) => {
             let code = 500;
             return res.status(code).send(helper.responseFailure(false, code, 'Error', err.message));
         })
+}
+
+exports.createAnnouncement = async (req, res) => {
+    if(req.member_id !== req.params.coach_id || req.role === 3){
+        let code = 400;
+        console.log('400')
+        return res.status(code).send(helper.responseFailure(false, code, 'Access denied'));
+    }
+
+    try{
+        let coach = await MemberModel.findById(req.params.coach_id);
+        let newAnnouncement = new AnnouncementModel({
+            coach: req.params.coach_id,
+            title: escape(req.body.title),
+            message: escape(req.body.content),
+            date_created: Date.now(),
+        });
+
+        newAnnouncement.save((err) => {
+            if(err){
+                let code = 400;
+                return res.status(code).send(helper.responseFailure(false, code, 'Cant create lecture', err.message));
+            }
+
+            let code = 200;
+            return res.status(code).send(helper.responseSuccess(true, code, 'Create success', {announcement: newAnnouncement, coach: coach}));
+        })
+    }
+    catch(err) {
+        console.log(err.message);
+    }
+}
+
+exports.getAllAnnouncement = async (req, res) => {
+    try {
+        let announcements = await AnnouncementModel.find().populate('coach').sort({ date_created: 'desc' }).exec();
+
+        let code = 200;
+        return res.status(code).send(helper.responseSuccess(true, code, 'Get success', announcements));
+    }
+    catch(err) {
+        console.log(err.message);
+    }
 }

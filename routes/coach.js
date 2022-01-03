@@ -14,6 +14,8 @@ router.get('/suggeted_lineup', middleware.checkToken, coachController.suggestedL
 // Update rating
 router.post('/update_rating', middleware.checkToken, coachController.updateRating);
 
+
+// ----- COMMENT -----
 // Create comment on player's profile
 router.post('/:coach_id/comment/:player_id', 
     body('content')
@@ -31,6 +33,9 @@ router.put('/:coach_id/comment/:comment_id',
 // Delete comment
 router.delete('/:coach_id/comment/:comment_id', middleware.checkToken, coachController.deleteComment);
 
+
+
+
 // ----- LECTURE -----
 // GET /
 router.get('/:coach_id/lectures', middleware.checkToken, coachController.getAllLecture);
@@ -46,5 +51,14 @@ router.put('/:coach_id/lecture/:lecture_id', middleware.checkToken, coachControl
 
 // DELETE /lecture_id
 router.delete('/:coach_id/lecture/:lecture_id', middleware.checkToken, coachController.deleteLecture);
+
+
+
+// ----- ANNOUNCEMENT -----
+// GET /
+router.get('/:coach_id/announcements', middleware.checkToken, coachController.getAllAnnouncement);
+
+// POST /
+router.post('/:coach_id/announcement', middleware.checkToken, coachController.createAnnouncement);
 
 module.exports = router;

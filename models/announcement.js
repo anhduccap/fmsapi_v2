@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const AnnouncementSchema = new Schema({
     coach: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Coach',
+        ref: 'Member',
     },
     title: {
         type: String,
@@ -16,14 +16,9 @@ const AnnouncementSchema = new Schema({
         type: String,
         require: true,
     },
-
     date_created: {
         type: Number,
         default: Date.now(),
-    },
-    date_edited: {
-        type: Number,
-        default: null,
     }
 }, {collecttion: 'Announcement'});
 
