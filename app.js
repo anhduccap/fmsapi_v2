@@ -3,9 +3,11 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const dotenv = require('dotenv').config();
 const CORS = require('cors');
+const swaggerDoc = require('swagger-ui-express');
 
 const db = require('./config/db_config');
 const indexRouter = require('./routes/index');
+const swaggerSetup = require('./config/swagger');
 
 const app = express();
 
@@ -26,6 +28,8 @@ app.use(cookieParser());
 //connect DB
 db();
 
+app.use('/api/documentations', swaggerDoc.serve);
+app.use('/api/documentations', swaggerDoc.setup(swaggerSetup));
 app.use('/', indexRouter);
 
 module.exports = app;
