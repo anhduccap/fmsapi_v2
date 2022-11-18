@@ -1,0 +1,14 @@
+{
+    "login_incorrect": "Tên đăng nhập hoặc mật khẩu không chính xác",
+    "login_success": "Đăng nhập thành công",
+    "login_failed": "Đăng nhập thất bại",
+    "register_success": "Tạo tài khoản thành công",
+    "access_denied": "Truy cập bị từ chối",
+    "token_not_found": "Token không tồn tại",
+    "token_invalid": "Token không hợp lệ",
+    "token_expired": "Token hết hạn",
+    "account_not_found": "Tài khoản không tồn tại",
+    "forget_pass_success": "Quên mật khẩu thành công",
+    "try_again": "Thử lại sau",
+    "min": "phút"
+}

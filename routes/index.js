@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
 const helper = require('../helpers/index');
+
 const authRouter = require('./auth');
 const homeRouter = require('./home');
 const playerRouter = require('./player');

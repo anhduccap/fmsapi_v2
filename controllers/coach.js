@@ -4,7 +4,7 @@ const axios = require('axios');
 const helper = require('../helpers/index');
 const CommentModel = require('../models/comment');
 const StatModel = require('../models/stat');
-const MemberModel = require('../models/member');
+const MemberModel = require('../models/account.model');
 const LectureModel = require('../models/lecture');
 const AnnouncementModel = require('../models/announcement');
 

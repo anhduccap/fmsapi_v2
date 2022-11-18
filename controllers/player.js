@@ -1,7 +1,7 @@
 const request = require('request');
 
 const helper = require('../helpers/index');
-const MemberModel = require('../models/member');
+const MemberModel = require('../models/account.model');
 const StatModel = require('../models/stat');
 const CommentModel = require('../models/comment');
 

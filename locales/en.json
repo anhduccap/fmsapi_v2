@@ -1,0 +1,14 @@
+{
+    "login_incorrect": "Username or Password is incorrect",
+    "login_success": "Login successfully",
+    "login_failed": "Login failed",
+    "register_success": "Create account succesfully",
+    "access_denied": "Access denied",
+    "token_not_found": "Token not found",
+    "token_invalid": "Token invalid",
+    "token_expired": "Token was be expired",
+    "account_not_found": "Account not found",
+    "forget_pass_success": "Forget password succesfully",
+    "try_again": "Try again after",
+    "min": "minute"
+}

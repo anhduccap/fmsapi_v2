@@ -57,3 +57,22 @@ exports.removeVietnameseTones = (str) => {
     str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
     return str;
 }
+
+exports.generatePassword = (length) => {
+    let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP1234567890";
+    let pass = "";
+    for (let x = 0; x < length; x++) {
+        let i = Math.floor(Math.random() * chars.length);
+        pass += chars.charAt(i);
+    }
+    return pass;
+}
+
+exports.generateUsername = (name, id) => {
+    name = name.toLowerCase();
+    name = helper.removeVietnameseTones(name);
+    name = name.split(' ');
+    let username = name.map(element => element[0])
+
+    return username.join('') + id.toString();
+}

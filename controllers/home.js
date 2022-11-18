@@ -1,7 +1,7 @@
 
 
 const helper = require('../helpers/index');
-const MemberModel = require('../models/member');
+const MemberModel = require('../models/account.model');
 
 exports.index = async (req, res, next) => {
     try{
