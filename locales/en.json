@@ -3,6 +3,7 @@
     "login_success": "Login successfully",
     "login_failed": "Login failed",
     "register_success": "Create account succesfully",
+    "register_failed": "Create account failed",
     "access_denied": "Access denied",
     "token_not_found": "Token not found",
     "token_invalid": "Token invalid",
@@ -18,5 +19,6 @@
     "update_pass_success": "Update password succesfully",
     "update_pass_failed": "Update password failed",
     "logout_success": "Logout succesfully",
-    "logout_failed": "Logout failed"
+    "logout_failed": "Logout failed",
+    "account_existed": "Account was existed"
 }

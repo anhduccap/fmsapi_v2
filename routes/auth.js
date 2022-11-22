@@ -5,9 +5,13 @@ const { body } = require('express-validator');
 const authController = require('../controllers/auth/auth.controller');
 const middleware = require('../middlewares/index');
 
-// Creater member (admin)
-// router.post('/member', middleware.checkToken, authController.register);
-// router.post('/account', authController.register);
+// Creater member (only admin permission)
+router.post('/account',
+    middleware.checkIP,
+    middleware.checkToken,
+    middleware.checkAdminPermission,
+    authController.register
+);
 
 // Login
 router.post('/', 

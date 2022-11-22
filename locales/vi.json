@@ -3,6 +3,7 @@
     "login_success": "Đăng nhập thành công",
     "login_failed": "Đăng nhập thất bại",
     "register_success": "Tạo tài khoản thành công",
+    "register_failed": "Tạo tài khoản thất bại",
     "access_denied": "Truy cập bị từ chối",
     "token_not_found": "Token không tồn tại",
     "token_invalid": "Token không hợp lệ",
@@ -18,5 +19,6 @@
     "update_pass_success": "Cập nhật mật khẩu thành công",
     "update_pass_failed": "Cập nhật mật khẩu thất bại",
     "logout_success": "Đăng xuất thành công",
-    "logout_failed": "Đăng xuất thất bại"
+    "logout_failed": "Đăng xuất thất bại",
+    "account_existed": "Tài khoản đã tồn tại"
 }

@@ -23,24 +23,23 @@ const playerDetailSchema = mongoose.Schema({
     },
     height: {
         type: String,
-        required: true,
+        default: 0,
     },
     weight: {
         type: String,
-        required: true,
+        default: 0,
     },
     position: {
         type: String,
-        required: true,
+        default: '',
     },
     detailPosition: {
         type: [String],
         enum: _.values(constants.DETAIL_POSITION),
-        required: true,
+        default: [],
     },
     kitNumber: {
         type: Number,
-        required: true,
         default: null,
     },
 }, {
