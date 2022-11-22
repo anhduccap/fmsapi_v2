@@ -1,5 +1,6 @@
 exports.login = require('./actions/login.action');
 exports.forgetPassword = require('./actions/forgetPass.action');
+exports.resetPassword = require('./actions/resetPass.action');
 
 // exports.register = async (req, res) => {
 //     try{

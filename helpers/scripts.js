@@ -4,9 +4,7 @@ const { faker } = require('@faker-js/faker');
 const bcrypt = require('bcrypt');
 const helper = require('./index');
 const fs = require('fs-extra');
-
-const RAPIDAPI_HOST = 'v3.football.api-sports.io';
-const RAPIDAPI_KEY = '84e074563f6c08f26a87122ca9894799';
+require('dotenv/config');
 
 const generateUsername = (name, id) => {
     name = name.toLowerCase();
@@ -17,7 +15,7 @@ const generateUsername = (name, id) => {
     return username.join('') + id.toString();
 }
 
-const client = new MongoClient('mongodb+srv://anhduccap:3f00zebxa9mXgQh6@fmsapi.rilao.mongodb.net/fms_api_db?retryWrites=true&w=majority', {
+const client = new MongoClient(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -67,8 +65,8 @@ const createMember = async (generalID) => {
                 method: 'GET',
                 url: 'https://v3.football.api-sports.io/players/squads',
                 headers: {
-                    'x-rapidapi-host': RAPIDAPI_HOST,
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-host': process.env.RAPIDAPI_HOST,
+                    'x-rapidapi-key': process.env.RAPIDAPI_KEY,
                 },
                 params: {
                     team: 33
@@ -94,8 +92,8 @@ const createMember = async (generalID) => {
                 method: 'GET',
                 url: 'https://v3.football.api-sports.io/players',
                 headers: {
-                    'x-rapidapi-host': RAPIDAPI_HOST,
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-host': process.env.RAPIDAPI_HOST,
+                    'x-rapidapi-key': process.env.RAPIDAPI_KEY,
                 },
                 params: {
                     season: 2022,

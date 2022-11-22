@@ -10,5 +10,9 @@
     "account_not_found": "Tài khoản không tồn tại",
     "forget_pass_success": "Quên mật khẩu thành công",
     "try_again": "Thử lại sau",
-    "min": "phút"
+    "min": "phút",
+    "link_expired": "Liên kết hết hạn",
+    "link_not_found": "Liên kết không tồn tại",
+    "reset_pass_success": "Đặt lại mật khẩu thành công. Mật khẩu mới đã được gửi tới mail của bạn",
+    "reset_pass_failed": "Đặt lại mật khẩu thất bại"
 }

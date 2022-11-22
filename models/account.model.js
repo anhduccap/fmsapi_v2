@@ -35,9 +35,14 @@ const accountSchema = mongoose.Schema({
         type: String,
         default: '',
     },
+    email: {
+        type: String,
+        default: '',
+    },
     username: {
         type: String,
         required: true,
+        index: true,
     },
     password: {
         type: String,

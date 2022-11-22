@@ -20,6 +20,21 @@ router.post('/',
     authController.login
 );
 
+// Forget password
+router.post('/account/forget_password',
+    body('username')
+        .matches(/^(?=.{5,25}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/).withMessage('Invalid username'),
+    middleware.checkIP,
+    authController.forgetPassword
+);
+
+// Reset password
+router.get('/account/reset_password',
+    // middleware.checkIP,
+    authController.resetPassword
+);
+
+
 // // Update phone number
 // router.put('/member/:member_id/phone', 
 //     body('phone').matches(/([3|5|7|8|9]|0[3|5|7|8|9])+([0-9]{8})\b/).withMessage('Invalid phone number'),
@@ -45,17 +60,5 @@ router.post('/',
 //         .isLength({min: 5}).withMessage('Password must be at least 5 characters'),
 //     middleware.checkToken, authController.updatePassword
 // );
-
-// Forget password
-router.post('/account/forget_password',
-    body('username')
-        .matches(/^(?=.{5,25}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/).withMessage('Invalid username'),
-    middleware.checkIP,
-    middleware.checkToken,
-    authController.forgetPassword
-);
-
-// // Reset password (admin)
-// router.put('/member/:member_id/reset_password', middleware.checkToken, authController.resetPassword);
 
 module.exports = router;

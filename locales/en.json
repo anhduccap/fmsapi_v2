@@ -10,5 +10,9 @@
     "account_not_found": "Account not found",
     "forget_pass_success": "Forget password succesfully",
     "try_again": "Try again after",
-    "min": "minute"
+    "min": "minute",
+    "link_expired": "Reset link was expired",
+    "link_not_found": "Link not found",
+    "reset_pass_success": "Reset password successfully. New password was be delivered to your email",
+    "reset_pass_failed": "Reset password failed"
 }
