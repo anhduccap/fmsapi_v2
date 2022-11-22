@@ -14,5 +14,9 @@
     "link_expired": "Liên kết hết hạn",
     "link_not_found": "Liên kết không tồn tại",
     "reset_pass_success": "Đặt lại mật khẩu thành công. Mật khẩu mới đã được gửi tới mail của bạn",
-    "reset_pass_failed": "Đặt lại mật khẩu thất bại"
+    "reset_pass_failed": "Đặt lại mật khẩu thất bại",
+    "update_pass_success": "Cập nhật mật khẩu thành công",
+    "update_pass_failed": "Cập nhật mật khẩu thất bại",
+    "logout_success": "Đăng xuất thành công",
+    "logout_failed": "Đăng xuất thất bại"
 }

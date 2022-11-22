@@ -14,5 +14,9 @@
     "link_expired": "Reset link was expired",
     "link_not_found": "Link not found",
     "reset_pass_success": "Reset password successfully. New password was be delivered to your email",
-    "reset_pass_failed": "Reset password failed"
+    "reset_pass_failed": "Reset password failed",
+    "update_pass_success": "Update password succesfully",
+    "update_pass_failed": "Update password failed",
+    "logout_success": "Logout succesfully",
+    "logout_failed": "Logout failed"
 }

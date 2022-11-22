@@ -26,8 +26,8 @@ module.exports = async function(req, res) {
 
         if(resetTokenInfo.expiredAt < Date.now()) return res.send(`<body><p>${res.__('link_expired')}</p><script>setTimeout(function(){window.close()}, 5000);</script ></body>`);
 
-        // const newPassword = helper.generatePassword(8);
-        const newPassword = '12345678';
+        const newPassword = helper.generatePassword(8);
+        // const newPassword = '12345678';
         const salt = await bcrypt.genSalt(parseInt(process.env.SALT_ROUND,10));
         const hashedPassword = await bcrypt.hash(newPassword, salt);
 

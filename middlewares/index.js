@@ -7,7 +7,7 @@ const helper = require('../helpers/index');
 const tokenModel = require('../models/token.model');
 
 exports.checkToken = async (req, res, next) => {
-    let token = req.header('auth-token');
+    const token = req.header('auth-token');
     if(!token) {
         let code = 400;
         return res.status(code).send(helper.responseFailure(false, code, res.__('access_denied')));
