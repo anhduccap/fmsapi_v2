@@ -6,7 +6,8 @@ const path = require('path');
 
 const db = require('./config/db_config');
 const indexRouter = require('./routes/index');
-const middleware = require('./middlewares/index')
+const middleware = require('./middlewares/index');
+const updateStat = require('./helpers/updateStat');
 
 const app = express();
 
@@ -25,5 +26,8 @@ app.set('trust proxy', true)
 //connect DB
 db();
 app.use('/', middleware.checkIP, indexRouter);
+
+// Cron job
+updateStat();
 
 module.exports = app;
