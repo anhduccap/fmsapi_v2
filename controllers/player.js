@@ -2,7 +2,7 @@ const request = require('request');
 
 const helper = require('../helpers/index');
 const MemberModel = require('../models/account.model');
-const StatModel = require('../models/stat');
+const StatModel = require('../models/statistic.model');
 const CommentModel = require('../models/comment');
 
 exports.getAllPlayer = async (req, res) => {
@@ -13,7 +13,7 @@ exports.getAllPlayer = async (req, res) => {
                 let code = 400;
                 return res.status(code).send(helper.responseFailure(false, code, 'Not found'));
             }
-    
+
             let code = 200;
             return res.status(code).send(helper.responseSuccess(true, code, 'Get successful', memberList));
         }
@@ -39,7 +39,7 @@ exports.createStatistic = async (req, res) => {
             let code = 400;
             return res.status(code).send(helper.responseFailure(false, code, 'Member not found'));
         }
-        
+
         let stat = await StatModel.findOne({player: member._id});
         if(stat) {
             let code = 400;
@@ -81,13 +81,13 @@ exports.getStatistic = async (req, res) => {
                     'x-rapidapi-key': '39ca433ef98ac8cb40a89b37f1111714'
                 }
             };
-              
+
             request(options, function (error, response, body) {
                 if (error) throw new Error(error);
-    
+
                 let data = JSON.parse(body);
                 let code = 200;
-                
+
                 return res.status(code).send(helper.responseSuccess(true, code, 'Successful', data));
             });
         }

@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const helper = require('../helpers/index');
 const CommentModel = require('../models/comment');
-const StatModel = require('../models/stat');
+const StatModel = require('../models/statistic.model');
 const MemberModel = require('../models/account.model');
 const LectureModel = require('../models/lecture');
 const AnnouncementModel = require('../models/announcement');
@@ -16,7 +16,7 @@ exports.getAllStatistic = async (req, res) => {
                 let code = 400;
                 return res.status(code).send(helper.responseFailure(false, code, 'Not found'));
             }
-    
+
             let code = 200;
             return res.status(code).send(helper.responseSuccess(true, code, 'Get successful', statList));
         }
@@ -38,7 +38,7 @@ exports.updateRating = async (req, res) => {
         StatModel.findOneAndUpdate(
             {
                 _id: req.query.stat_id,
-            }, 
+            },
             {rating: req.body.rating}
         ).then( response => res.status(200).send(helper.responseSuccess(true, 200, 'Successful updated')))
         .catch(err => res.status(500).send(err.message));
@@ -122,7 +122,7 @@ exports.suggestedLineup = async (req, res) => {
             LM: LM,
             RM: RM,
             CAM: CAM,
-            ST: ST,    
+            ST: ST,
         };
 
         return res.status(200).send(helper.responseSuccess(true, 200, 'Get successful', result));
@@ -167,7 +167,7 @@ exports.comment = async (req, res) => {
                 let code = 400;
                 return res.status(code).send(helper.responseFailure(false, code, 'Cannot comment', err.message));
             }
-            
+
             let code = 200;
             return res.status(code).send(helper.responseSuccess(true, code, 'Comment created', {comment: NewComment, coach: coach.name}));
         });
